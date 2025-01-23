@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { usePostsState } from "../../../../contexts/jotai/post-state/usePostsState";
+import apiConfig from "../../../../config/apiConfig";
 
 const usePosts = () => {
   const { posts, setPosts, deletePost } = usePostsState();
   const [loading, setLoading] = useState(false);
+  const apiBaseUrl = apiConfig.baseUrl;
 
   const getPostsFetch = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:3000/api/v1/posts");
+      const res = await axios.get(`${apiBaseUrl}/api/v1/posts`);
 
       setPosts(res.data);
     } catch (e) {
@@ -17,7 +19,7 @@ const usePosts = () => {
     } finally {
       setLoading(false);
     }
-  }, [setPosts]);
+  }, [apiBaseUrl, setPosts]);
 
   useEffect(() => {
     getPostsFetch();
@@ -27,7 +29,7 @@ const usePosts = () => {
     async (id: number) => {
       try {
         setLoading(true);
-        await axios.delete(`http://localhost:3000/api/v1/posts/${id}`);
+        await axios.delete(`${apiBaseUrl}/api/v1/posts/${id}`);
 
         deletePost(id);
       } catch (e) {
@@ -36,7 +38,7 @@ const usePosts = () => {
         setLoading(false);
       }
     },
-    [deletePost]
+    [apiBaseUrl, deletePost]
   );
 
   return { posts, handleDelete, loading };

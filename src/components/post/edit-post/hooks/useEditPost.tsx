@@ -4,6 +4,7 @@ import { usePostContentValueState } from "../../../../contexts/jotai/post-state/
 import { usePostsState } from "../../../../contexts/jotai/post-state/usePostsState";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import apiConfig from "../../../../config/apiConfig";
 
 const usePostEdit = () => {
   const { titleValue, setTitleValue } = usePostTitleValueState();
@@ -13,6 +14,7 @@ const usePostEdit = () => {
   const [title, setTitle] = useState<string | undefined>("");
   const [content, setContent] = useState<string | undefined>("");
   const navigate = useNavigate();
+  const apiBaseUrl = apiConfig.baseUrl;
 
   const handleTitleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +34,7 @@ const usePostEdit = () => {
     const fetchPost = async () => {
       if (!id) return;
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/posts/${id}`);
+        const res = await axios.get(`${apiBaseUrl}/api/v1/posts/${id}`);
         setTitle(res.data.title || "");
         setContent(res.data.content || "");
       } catch (e) {
@@ -40,12 +42,12 @@ const usePostEdit = () => {
       }
     };
     fetchPost();
-  }, [id]);
+  }, [apiBaseUrl, id]);
 
   const handleEdit = useCallback(async () => {
     if (!id) return;
     try {
-      const res = await axios.put(`http://localhost:3000/api/v1/posts/${id}`, {
+      const res = await axios.put(`${apiBaseUrl}/api/v1/posts/${id}`, {
         title,
         content,
       });
@@ -58,6 +60,7 @@ const usePostEdit = () => {
       navigate("/posts");
     }
   }, [
+    apiBaseUrl,
     content,
     id,
     navigate,

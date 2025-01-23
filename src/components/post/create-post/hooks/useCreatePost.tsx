@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { usePostTitleValueState } from "../../../../contexts/jotai/post-state/usePostTitleValueState";
 import { usePostsState } from "../../../../contexts/jotai/post-state/usePostsState";
 import { usePostContentValueState } from "../../../../contexts/jotai/post-state/usePostContentValueState";
+import apiConfig from "../../../../config/apiConfig";
 
 const useCreatePost = () => {
   const { titleValue, setTitleValue } = usePostTitleValueState();
@@ -11,6 +12,7 @@ const useCreatePost = () => {
   const { createPost } = usePostsState();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const apiBaseUrl = apiConfig.baseUrl;
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(e.target.value);
@@ -23,7 +25,7 @@ const useCreatePost = () => {
   const handleSubmit = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/api/v1/posts", {
+      const res = await axios.post(`${apiBaseUrl}/api/v1/posts`, {
         title: titleValue || "",
         content: contentValue || "",
       });
@@ -37,6 +39,7 @@ const useCreatePost = () => {
       navigate("/posts");
     }
   }, [
+    apiBaseUrl,
     contentValue,
     createPost,
     navigate,
