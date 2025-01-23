@@ -1,7 +1,7 @@
 // src/config/apiConfig.ts
 const apiConfig = {
-    baseUrl: 'https://portfolio-blog-ki-4bfc16ba3d6f.herokuapp.com',
-  };
+    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:3000',
+};
   
   export default apiConfig;
   
