@@ -1,5 +1,5 @@
 const apiConfig = {
-    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:3000',
+    baseUrl: import.meta.env.VITE_APP_API_URL,
 };
 
 export default apiConfig;
