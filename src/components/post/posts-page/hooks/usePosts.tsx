@@ -11,9 +11,7 @@ const usePosts = () => {
   const getPostsFetch = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://portfolio-blog-ki-4bfc16ba3d6f.herokuapp.com/api/v1/posts`
-      );
+      const res = await axios.get(`${apiBaseUrl}/api/v1/posts`);
 
       setPosts(res.data);
     } catch (e) {
