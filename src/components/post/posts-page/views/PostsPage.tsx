@@ -33,7 +33,7 @@ const PostsPage = (props: {
         </Link>
       </HStack>
       <Stack p={20} flex={1} alignItems={"center"}>
-        {posts?.map((post: Post) => (
+        {posts.map((post: Post) => (
           <Stack
             key={post.id}
             w={"100%"}
